@@ -1,4 +1,4 @@
-Engine List
+Filters
 ===========
 
-List module for Engine framework.
+Filter module for Engine framework.
