@@ -47,3 +47,6 @@ Sets the query and options in filter instance
 ## Outgoing Events
  - `filtersSet` - after setting the filters
  - `data:read` - after receiving data from server
+
+# License
+See the [LICENSE](./license) file.
