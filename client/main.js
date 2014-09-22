@@ -8,6 +8,23 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
         self._query = {};
         self._options = {};
 
+        var _errorHandler = function (err) {
+            console.error(err);
+        };
+
+        var CRUD = {
+            c: function () { /* TODO */ },
+            r: function (_model, query, options, callback) {
+                _model.req({
+                    m: "find",
+                    q: query,
+                    o: options
+                }, callback);
+            },
+            u: function () { /* TODO */ },
+            d: function () { /* TODO */ },
+        };
+
         function resetObj(obj) {
             for (var k in obj) {
                 delete obj[k];
@@ -54,6 +71,17 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
             self.emit("filtersSet", ev, {
                 query: self._query,
                 optoins: self._options
+            });
+
+            if (data._fetchData === false) { return; }
+            var model = data._model;
+            if (typeof model === "string") {
+                model = self.model[model];
+            }
+
+            CRUD.r(model, self._query, self._options, function (err, items) {
+                if (err) { return _errorHandler(err); }
+                self.emit("data:read", ev, items);
             });
         };
     };
