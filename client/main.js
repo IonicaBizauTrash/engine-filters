@@ -22,7 +22,7 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
                 }, callback);
             },
             u: function () { /* TODO */ },
-            d: function () { /* TODO */ },
+            d: function () { /* TODO */ }
         };
 
         function resetObj(obj) {
