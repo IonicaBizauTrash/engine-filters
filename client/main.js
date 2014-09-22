@@ -68,7 +68,7 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
             // Merge data
             for (var i = 0; i < fields.length; ++i) {
                 var c = fields[i];
-                if (!(what = data[c])) { return; }
+                if (!(what = data[c])) { continue; }
                 var ref = self["_" + c];
                 for (var f in what) {
                     ref[f] = what[f];
