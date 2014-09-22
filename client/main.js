@@ -25,6 +25,17 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
             d: function () { /* TODO */ }
         };
 
+
+        // TODO
+        self._crud = {};
+        for (var op in CRUD) {
+            (function (cOp, func) {
+                self._crud[op] = function (ev, data) {
+                    func(data._model, data.query, data.options, data._callback);
+                };
+            })(op, CRUD[op]);
+        }
+
         function resetObj(obj) {
             for (var k in obj) {
                 delete obj[k];
@@ -45,23 +56,20 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
          *  - _oReset {Boolean} if true, the options object will be emptied
          * @return {undefined}
          */
-        self.setFilters = function (ev, data) {
+        self.setFilters = function (ev, data, callback) {
 
             var what = null;
             var fields = ["query", "options"];
 
             // Reset data
-            if (data._qReset) { resetObj(Filters._query); }
-            if (data._oReset) { resetObj(Filters._options); }
+            if (data._qReset) { resetObj(self._query); }
+            if (data._oReset) { resetObj(self._options); }
 
             // Merge data
             for (var i = 0; i < fields.length; ++i) {
-                var c = this;
+                var c = fields[i];
                 if (!(what = data[c])) { return; }
-                var ref = Filters["_" + c];
-                for (var f in config.options[c]) {
-                    ref[f] = config.options[c][f];
-                }
+                var ref = self["_" + c];
                 for (var f in what) {
                     ref[f] = what[f];
                 }
@@ -70,7 +78,7 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
             // Emit filtersSet event
             self.emit("filtersSet", ev, {
                 query: self._query,
-                optoins: self._options
+                options: self._options
             });
 
             if (data._fetchData === false) { return; }
@@ -80,10 +88,16 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
             }
 
             CRUD.r(model, self._query, self._options, function (err, items) {
+                if (typeof callback === "function") {
+                    callback(err, items);
+                }
                 if (err) { return _errorHandler(err); }
                 self.emit("data:read", ev, items);
             });
         };
+
+        self.on("setFilters", self.setFilters);
+        ready();
     };
 
     return module;
