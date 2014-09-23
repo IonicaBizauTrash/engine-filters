@@ -8,6 +8,8 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
         self._query = {};
         self._options = {};
 
+        var modelCache = null;
+
         var _errorHandler = function (err) {
             console.error(err);
         };
@@ -85,6 +87,12 @@ Z.wrap('github/ionicabizau/filters/v0.0.1/client/main.js', function (require, mo
             var model = data._model;
             if (typeof model === "string") {
                 model = self.model[model];
+            }
+
+            if (!model) {
+                model = modelCache;
+            } else {
+                modelCache = model;
             }
 
             CRUD.r(model, self._query, self._options, function (err, items) {
