@@ -1,7 +1,6 @@
 module.exports = function (config, ready) {
 
     var self = this;
-    var config = self._conf;
 
     // Query and options
     self._query = {};
