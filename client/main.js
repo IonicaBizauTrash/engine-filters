@@ -15,8 +15,7 @@ module.exports = function (config, ready) {
     var CRUD = {
         c: function () { /* TODO */ },
         r: function (_model, query, options, callback) {
-            _model.req({
-                m: "find",
+            _model.req("read", {
                 q: query,
                 o: options
             }, callback);
