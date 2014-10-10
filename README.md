@@ -24,6 +24,25 @@ Filter module for Engine framework.
 }
 ```
 
+# Model Queries
+
+The module needs the following model queries:
+
+## `read`
+
+```js
+{
+    "name": "read",
+    "request": {
+        "method": "find"
+    },
+    "add": {
+        "options": "o",
+        "query": "q"
+    }
+}
+```
+
 # Methods
 
 ## CRUD interface
